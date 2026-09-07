@@ -1,0 +1,413 @@
+:root {
+	--ink: #1e2b25;
+	--ink-soft: #405047;
+	--paper: #f4f0e5;
+	--paper-bright: #fffcf4;
+	--vine: #24372e;
+	--vine-deep: #15241d;
+	--clay: #b54843;
+	--clay-dark: #873431;
+	--harvest: #d6b66c;
+	--linden: #9bb186;
+	--water: #b9d8dd;
+	--line: rgb(30 43 37 / 24%);
+	--line-strong: rgb(30 43 37 / 46%);
+	--serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+	--sans: Aptos, "Segoe UI", sans-serif;
+}
+
+body {
+	background-color: var(--paper);
+	background-image: repeating-linear-gradient(0deg, transparent 0 31px, rgb(30 43 37 / 2.5%) 32px),
+		repeating-linear-gradient(90deg, transparent 0 31px, rgb(30 43 37 / 2.5%) 32px);
+	color: var(--ink);
+	font-family: var(--serif);
+}
+
+button,
+input,
+select {
+	font-family: var(--sans);
+}
+
+.atlas-shell {
+	background: rgb(244 240 229 / 92%);
+}
+
+.atlas-header {
+	min-height: 86px;
+	padding: 1rem clamp(1.25rem, 3vw, 3.25rem);
+	border-bottom: 4px solid var(--vine);
+	background: var(--paper-bright);
+	box-shadow: 0 3px 0 var(--harvest);
+}
+
+.brand-lockup {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+}
+
+.terroir-mark {
+	position: relative;
+	display: grid;
+	width: 48px;
+	height: 48px;
+	flex: 0 0 48px;
+	align-content: center;
+	gap: 5px;
+	padding: 7px;
+	border: 2px solid var(--harvest);
+	border-radius: 50%;
+	background: var(--vine);
+	box-shadow: inset 0 0 0 5px var(--vine-deep);
+}
+
+.terroir-mark span {
+	display: block;
+	width: 100%;
+	height: 4px;
+	border-radius: 50%;
+	background: var(--harvest);
+	transform: skewY(-11deg);
+}
+
+.terroir-mark::after {
+	position: absolute;
+	top: 11px;
+	right: 12px;
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	background: var(--clay);
+	content: "";
+}
+
+.atlas-header h1 {
+	font-family: var(--serif);
+	font-size: clamp(1.6rem, 3vw, 2.15rem);
+	font-weight: 700;
+	letter-spacing: 0;
+}
+
+.eyebrow,
+.atlas-edition {
+	font-family: var(--sans);
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.atlas-edition {
+	margin: 0;
+	padding: 0.4rem 0 0.4rem 0.75rem;
+	border-left: 2px solid var(--harvest);
+	color: var(--ink-soft);
+}
+
+.atlas-map {
+	background-color: var(--water);
+}
+
+.atlas-map::before {
+	position: absolute;
+	z-index: 450;
+	inset: 0;
+	pointer-events: none;
+	background-image: repeating-linear-gradient(20deg, transparent 0 38px, rgb(36 55 46 / 7%) 39px 40px);
+	content: "";
+}
+
+.atlas-map .leaflet-control-zoom,
+.map-style-controls {
+	border: 1px solid var(--vine-deep);
+	border-radius: 3px;
+	background: var(--paper-bright);
+	box-shadow: 3px 3px 0 rgb(30 43 37 / 18%);
+}
+
+.atlas-map .leaflet-control-zoom a,
+.map-style-controls button {
+	color: var(--vine);
+}
+
+.atlas-map .leaflet-control-zoom a:hover,
+.map-style-controls button:hover {
+	background: #e6e0d0;
+}
+
+.map-style-controls button[aria-pressed="true"] {
+	background: var(--vine);
+	color: var(--harvest);
+}
+
+.atlas-map .leaflet-control-attribution {
+	border-top: 1px solid var(--line-strong);
+	border-left: 1px solid var(--line-strong);
+	border-radius: 3px 0 0;
+	background: rgb(255 252 244 / 94%);
+	color: var(--ink-soft);
+	font-family: var(--sans);
+}
+
+.wine-marker__symbol {
+	border-color: var(--paper-bright);
+	background: var(--clay);
+	box-shadow: 0 0 0 3px rgb(36 55 46 / 42%), 0 3px 7px rgb(30 43 37 / 38%);
+}
+
+.wine-marker--selected .wine-marker__symbol {
+	outline-color: var(--harvest);
+	box-shadow: 0 0 0 5px var(--vine), 0 3px 7px rgb(30 43 37 / 38%);
+}
+
+.map-notice {
+	border: 1px solid var(--clay-dark);
+	border-left: 5px solid var(--clay);
+	border-radius: 2px;
+	background: var(--paper-bright);
+	box-shadow: 3px 3px 0 rgb(30 43 37 / 15%);
+	font-family: var(--sans);
+}
+
+.region-browser {
+	padding: 1.5rem;
+	border-left: 1px solid var(--line-strong);
+	background-color: #e9e3d4;
+	background-image: repeating-linear-gradient(135deg, transparent 0 11px, rgb(36 55 46 / 3.5%) 12px 13px);
+	font-family: var(--sans);
+}
+
+.panel-heading {
+	padding-bottom: 0.8rem;
+	border-bottom: 2px solid var(--harvest);
+	color: var(--vine);
+}
+
+.panel-heading h2,
+.region-dossier h2 {
+	font-family: var(--serif);
+	font-size: 1.55rem;
+	font-weight: 700;
+	letter-spacing: 0;
+}
+
+.search-field,
+.filter-grid select {
+	border-color: var(--line-strong);
+	border-radius: 3px;
+	background: var(--paper-bright);
+	box-shadow: inset 0 1px 0 rgb(255 255 255 / 78%);
+}
+
+.search-field:focus-within {
+	outline-color: var(--harvest);
+}
+
+.filter-grid label,
+.result-count,
+.region-results span {
+	color: var(--ink-soft);
+}
+
+.region-results button {
+	position: relative;
+	padding: 0.85rem 0.8rem 0.85rem 1rem;
+	border-color: var(--line);
+	border-radius: 3px;
+	background: rgb(255 252 244 / 68%);
+	box-shadow: 0 1px 0 rgb(30 43 37 / 7%);
+}
+
+.region-results button::before {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 4px;
+	background: var(--linden);
+	content: "";
+}
+
+.region-results button:hover,
+.region-results button:focus-visible {
+	border-color: var(--vine);
+	background: var(--paper-bright);
+	box-shadow: 3px 3px 0 rgb(36 55 46 / 14%);
+}
+
+.region-results button:focus-visible,
+.related-regions button:focus-visible,
+.text-button:focus-visible,
+.icon-text-button:focus-visible,
+.icon-button:focus-visible,
+.comparison-region:focus-visible {
+	outline: 3px solid var(--harvest);
+	outline-offset: 2px;
+}
+
+.region-results strong {
+	font-family: var(--serif);
+	font-size: 1.08rem;
+}
+
+.region-dossier {
+	position: relative;
+	padding: clamp(1.75rem, 4vw, 4rem) clamp(1.25rem, 6vw, 7rem);
+	border-top: 1px solid var(--line-strong);
+	background-color: var(--paper-bright);
+	background-image: linear-gradient(90deg, transparent 0 7%, rgb(214 182 108 / 25%) 7% calc(7% + 1px), transparent calc(7% + 1px));
+}
+
+.region-dossier::before {
+	position: absolute;
+	top: 0;
+	left: clamp(1.25rem, 4vw, 4rem);
+	width: 4rem;
+	height: 5px;
+	background: var(--clay);
+	content: "";
+}
+
+.dossier-overview {
+	max-width: 58rem;
+	font-size: 1.2rem;
+	line-height: 1.6;
+}
+
+.fact-grid,
+.dossier-grid {
+	gap: 0;
+	border: 1px solid var(--line-strong);
+	background: transparent;
+}
+
+.fact-grid > div,
+.dossier-grid section {
+	background: transparent;
+}
+
+.fact-grid > div + div,
+.dossier-grid section {
+	border-left: 1px solid var(--line);
+}
+
+.dossier-grid section {
+	border-top: 1px solid var(--line);
+}
+
+.fact-grid dt,
+.dossier-grid h3,
+.related-regions h3 {
+	color: var(--clay-dark);
+	font-family: var(--sans);
+}
+
+.icon-text-button {
+	border-color: var(--clay-dark);
+	border-radius: 3px;
+	background: var(--clay);
+	box-shadow: 3px 3px 0 var(--harvest);
+	font-weight: 700;
+}
+
+.icon-text-button:hover,
+.icon-text-button:focus-visible {
+	background: var(--clay-dark);
+	outline-color: var(--harvest);
+}
+
+.related-regions button,
+.text-button,
+.icon-button {
+	border-color: var(--line-strong);
+	border-radius: 3px;
+	background: var(--paper-bright);
+}
+
+.related-regions button:hover,
+.related-regions button:focus-visible,
+.text-button:hover,
+.icon-button:hover {
+	border-color: var(--vine);
+	background: #e6e0d0;
+}
+
+.comparison-tray {
+	border: 1px solid var(--harvest);
+	border-radius: 4px;
+	background-color: var(--vine-deep);
+	background-image: repeating-linear-gradient(145deg, transparent 0 12px, rgb(214 182 108 / 7%) 13px 14px);
+	box-shadow: 5px 5px 0 rgb(30 43 37 / 22%);
+}
+
+.comparison-tray .eyebrow,
+.comparison-region span,
+.comparison-facts dt {
+	color: #d4e0bf;
+}
+
+.comparison-region,
+.comparison-tray .icon-button {
+	border-color: rgb(214 182 108 / 65%);
+	border-radius: 3px;
+}
+
+.comparison-region:hover,
+.comparison-tray .icon-button:hover {
+	background: rgb(214 182 108 / 12%);
+}
+
+.comparison-facts {
+	border-top-color: rgb(214 182 108 / 40%);
+}
+
+.comparison-facts dd {
+	font-family: var(--sans);
+}
+
+.leaflet-tooltip {
+	border: 1px solid var(--vine);
+	border-radius: 3px;
+	background: var(--paper-bright);
+	box-shadow: 3px 3px 0 rgb(30 43 37 / 15%);
+	font-family: var(--sans);
+}
+
+@media (max-width: 720px) {
+	.atlas-header {
+		align-items: center;
+		min-height: 76px;
+		padding: 0.75rem 1rem;
+	}
+
+	.atlas-edition {
+		display: none;
+	}
+
+	.region-browser {
+		border-top-color: var(--line-strong);
+		border-left: 0;
+	}
+
+	.fact-grid > div + div,
+	.dossier-grid section {
+		border-top: 1px solid var(--line);
+		border-left: 0;
+	}
+
+	.region-dossier {
+		background-image: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+	}
+}

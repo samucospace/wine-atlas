@@ -1,7 +1,5 @@
+import { AtlasScreen } from "@/components/atlas/AtlasScreen";
+
 export default function Home() {
-  return (
-    <main>
-      <div>Hello world!</div>
-    </main>
-  );
+  return <AtlasScreen />;
 }
