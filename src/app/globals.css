@@ -175,6 +175,11 @@ body {
 	outline-offset: -3px;
 }
 
+.mobile-search-trigger,
+.browser-dismiss {
+	display: none;
+}
+
 .map-notice,
 .atlas-selection {
 	position: absolute;

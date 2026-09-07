@@ -10,11 +10,13 @@ import { RegionDossier } from "./RegionDossier";
 export function AtlasScreen() {
   const [selectedRegionId, setSelectedRegionId] = useState<string>();
   const [mapStyle, setMapStyle] = useState<MapStyle>("light");
+  const [isBrowserOpen, setIsBrowserOpen] = useState(false);
   const [comparisonRegionIds, setComparisonRegionIds] = useState<string[]>([]);
   const selectedRegion = regions.find((region) => region.id === selectedRegionId);
 
   function selectRegion(regionId: string) {
     setSelectedRegionId(regionId);
+    setIsBrowserOpen(false);
   }
 
   function addToComparison(regionId: string) {
@@ -47,11 +49,12 @@ export function AtlasScreen() {
         <AtlasMap
           mapStyle={mapStyle}
           onMapStyleChange={setMapStyle}
+          onOpenBrowser={() => setIsBrowserOpen(true)}
           onSelect={selectRegion}
           regions={regions}
           selectedRegionId={selectedRegionId}
         />
-        <RegionBrowser onSelect={selectRegion} regions={regions} />
+        <RegionBrowser isOpen={isBrowserOpen} onClose={() => setIsBrowserOpen(false)} onSelect={selectRegion} regions={regions} />
       </div>
       <RegionDossier
         onAddToComparison={addToComparison}

@@ -55,3 +55,18 @@ test("keeps the mobile atlas within the viewport", async ({ page }) => {
   await expect(page.locator(".leaflet-tile-loaded").first()).toBeVisible();
   await expect(page.getByRole("button", { name: "Use dark map style" })).toBeVisible();
 });
+
+test("opens mobile search on demand and closes it after a selection", async ({ page, isMobile }) => {
+  test.skip(!isMobile, "This flow is specific to the mobile search sheet.");
+  await page.goto("/");
+
+  const regionBrowser = page.getByRole("complementary", { name: "Region browser" });
+  await expect(regionBrowser).not.toBeVisible();
+  await page.getByRole("button", { name: "Search regions" }).click();
+  await expect(regionBrowser).toBeVisible();
+
+  await page.getByRole("searchbox").fill("Marlborough");
+  await page.getByRole("button", { name: /Marlborough New Zealand/ }).click();
+  await expect(regionBrowser).not.toBeVisible();
+  await expect(page.getByRole("heading", { name: "Marlborough" })).toBeVisible();
+});

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Search, Sun } from "lucide-react";
 import type * as Leaflet from "leaflet";
 import type { Region } from "@/types/region";
 
@@ -18,6 +18,7 @@ const tileAttribution = mapTilerKey
 type AtlasMapProps = {
   mapStyle: MapStyle;
   onMapStyleChange: (style: MapStyle) => void;
+  onOpenBrowser: () => void;
   onSelect: (regionId: string) => void;
   regions: Region[];
   selectedRegionId?: string;
@@ -26,6 +27,7 @@ type AtlasMapProps = {
 export function AtlasMap({
   mapStyle,
   onMapStyleChange,
+  onOpenBrowser,
   onSelect,
   regions,
   selectedRegionId,
@@ -166,6 +168,9 @@ export function AtlasMap({
           <Moon aria-hidden="true" size={19} />
         </button>
       </div>
+      <button className="mobile-search-trigger" onClick={onOpenBrowser} type="button">
+        <Search aria-hidden="true" size={18} /> Search regions
+      </button>
       {tilesUnavailable ? (
         <p className="map-notice" role="status">
           The map tiles are unavailable. Region reference data remains available.

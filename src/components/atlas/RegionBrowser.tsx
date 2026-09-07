@@ -6,6 +6,8 @@ import { findRegions, type RegionFilters, type RegionSort } from "@/lib/region-s
 import type { Climate, Hemisphere, LatitudeBelt, Region } from "@/types/region";
 
 type RegionBrowserProps = {
+  isOpen: boolean;
+  onClose: () => void;
   onSelect: (regionId: string) => void;
   regions: Region[];
 };
@@ -14,7 +16,7 @@ const climates: Climate[] = ["Cool", "Moderate", "Warm", "Hot", "Variable"];
 const hemispheres: Hemisphere[] = ["Northern", "Southern"];
 const latitudeBelts: LatitudeBelt[] = ["30-50 N", "30-50 S", "Outside primary belts"];
 
-export function RegionBrowser({ onSelect, regions }: RegionBrowserProps) {
+export function RegionBrowser({ isOpen, onClose, onSelect, regions }: RegionBrowserProps) {
   const [filters, setFilters] = useState<RegionFilters>({ sort: "name" });
   const results = findRegions(regions, filters);
   const countries = [...new Set(regions.map((region) => region.country))].sort();
@@ -28,13 +30,18 @@ export function RegionBrowser({ onSelect, regions }: RegionBrowserProps) {
   }
 
   return (
-    <aside aria-label="Region browser" className="region-browser">
+    <aside aria-label="Region browser" className={`region-browser${isOpen ? " region-browser--mobile-open" : ""}`}>
       <div className="panel-heading">
         <div>
           <p className="eyebrow">Region browser</p>
           <h2>Find a region</h2>
         </div>
-        <SlidersHorizontal aria-hidden="true" size={20} />
+        <div className="browser-heading-actions">
+          <SlidersHorizontal aria-hidden="true" size={20} />
+          <button aria-label="Close region search" className="browser-dismiss" onClick={onClose} type="button">
+            <X aria-hidden="true" size={18} />
+          </button>
+        </div>
       </div>
       <label className="search-field">
         <Search aria-hidden="true" size={18} />

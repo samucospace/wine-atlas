@@ -133,6 +133,30 @@ select {
 	color: var(--harvest);
 }
 
+.mobile-search-trigger {
+	position: absolute;
+	z-index: 500;
+	bottom: 1rem;
+	left: 1rem;
+	align-items: center;
+	gap: 0.5rem;
+	min-height: 44px;
+	padding: 0.55rem 0.75rem;
+	border: 1px solid var(--vine-deep);
+	border-radius: 3px;
+	background: var(--paper-bright);
+	box-shadow: 3px 3px 0 rgb(30 43 37 / 18%);
+	color: var(--vine);
+	font-family: var(--sans);
+	font-weight: 700;
+}
+
+.browser-heading-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+}
+
 .atlas-map .leaflet-control-attribution {
 	border-top: 1px solid var(--line-strong);
 	border-left: 1px solid var(--line-strong);
@@ -396,8 +420,35 @@ select {
 	}
 
 	.region-browser {
+		display: none;
+		position: fixed;
+		z-index: 800;
+		inset: auto 0 0;
+		max-height: min(78svh, 44rem);
+		padding: 1.25rem 1rem max(1.25rem, env(safe-area-inset-bottom));
 		border-top-color: var(--line-strong);
 		border-left: 0;
+		box-shadow: 0 -8px 32px rgb(30 43 37 / 25%);
+	}
+
+	.region-browser--mobile-open {
+		display: flex;
+	}
+
+	.mobile-search-trigger {
+		display: inline-flex;
+	}
+
+	.browser-dismiss {
+		display: grid;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border: 1px solid var(--line-strong);
+		border-radius: 3px;
+		background: var(--paper-bright);
+		color: var(--vine);
+		place-items: center;
 	}
 
 	.fact-grid > div + div,

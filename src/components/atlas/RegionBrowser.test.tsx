@@ -6,7 +6,7 @@ import { RegionBrowser } from "./RegionBrowser";
 describe("RegionBrowser", () => {
   it("filters by search and selects the matching region", () => {
     const onSelect = vi.fn();
-    render(<RegionBrowser onSelect={onSelect} regions={regions} />);
+    render(<RegionBrowser isOpen={false} onClose={vi.fn()} onSelect={onSelect} regions={regions} />);
 
     fireEvent.change(screen.getByRole("searchbox"), { target: { value: "Malbec" } });
 
@@ -16,7 +16,7 @@ describe("RegionBrowser", () => {
   });
 
   it("explains and resets an empty filter result", () => {
-    render(<RegionBrowser onSelect={vi.fn()} regions={regions} />);
+    render(<RegionBrowser isOpen={false} onClose={vi.fn()} onSelect={vi.fn()} regions={regions} />);
 
     fireEvent.change(screen.getByRole("searchbox"), { target: { value: "Not a region" } });
     expect(screen.getByText("No regions match these filters.")).toBeVisible();
