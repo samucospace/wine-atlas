@@ -146,11 +146,27 @@ type Region = {
   geographicFactors: string[];
   climateImpact: string;
   overview: string;
+  subregions: Subregion[];
   grapes: string[];
   styles: string[];
   sources: SourceReference[];
 };
 ```
+
+```ts
+type Subregion = {
+  name: string;
+  overview: string;
+  geographicFactors: string[];
+  grapes: string[];
+  styles: string[];
+  hasDedicatedProfile: boolean;
+};
+```
+
+Subregions and villages are presented as clickable study entries. Dedicated
+profiles contain local original research; entries without a verified dedicated
+profile transparently inherit parent-region context until research is complete.
 
 ### Editorial Requirements
 
@@ -189,8 +205,9 @@ Source records may live in a maintainer-only file if they should not be shipped 
 ### Mobile
 
 - Map fills the available screen beneath a compact header.
-- Search and filters open as a bottom sheet.
+- Search and filters open from a map-level `Search regions` button as a bottom sheet.
 - Region dossier opens as a scrollable detail sheet below the map.
+- Subregion profiles open as a safe-area-aware detail sheet.
 - Tap targets must be at least 44 by 44 CSS pixels.
 - Controls must respect safe-area insets.
 - No critical information may depend on hover.
@@ -274,6 +291,15 @@ The map component should own map lifecycle and viewport behavior. Search, dossie
 - Cache the region catalogue for offline browsing.
 - Clearly indicate when the map itself is unavailable offline.
 - Build and verify a debug APK before each release candidate.
+
+Implemented Android workflow:
+
+```bash
+npm run android:build
+```
+
+This builds the static web export, syncs Capacitor, and writes a debug APK to
+`android/app/build/outputs/apk/debug/app-debug.apk`.
 
 Expected commands:
 

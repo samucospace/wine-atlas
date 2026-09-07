@@ -1,34 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Wine Atlas
 
-## Getting Started
+Wine Atlas is an independent, map-first reference app for exploring wine regions, their geographic conditions, grapes, styles, and important subregions or villages. It is designed for personal study and geographic orientation; it is not an official guide or complete catalogue.
 
-First, run the development server:
+## Included
 
-```bash
+- 49 locally bundled parent regions across Europe, the Americas, South Africa, Australia, and New Zealand.
+- Interactive Leaflet map with MapTiler tiles, climate markers, latitude-belt overlays, and a tile-failure fallback.
+- Search, country/climate/hemisphere filters, related-region navigation, and two-region comparison.
+- Click-through subregion profiles. Dedicated profiles identify local geography, grapes, and styles; places still under research state that they inherit parent context.
+- Responsive mobile search sheet and Capacitor Android debug build.
+
+## Run Locally
+
+```powershell
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a local `.env` file before using MapTiler:
 
-## Learn More
+```env
+NEXT_PUBLIC_MAPTILER_KEY=your_restricted_client_key
+```
 
-To learn more about Next.js, take a look at the following resources:
+The app falls back to OpenStreetMap Standard tiles only when that variable is absent. Read [docs/map-provider.md](docs/map-provider.md) before changing the map provider or publishing the app.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Checks
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```powershell
+npm run check:data
+npm run typecheck
+npm run lint
+npm test -- --run
+npm run test:e2e
+npm run build
+```
 
-## Deploy on Vercel
+`npm run check:data` validates the complete local catalogue using Zod. Playwright reports and test results are generated files and are ignored by Git.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Android
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Build a fresh debug APK with:
+
+```powershell
+npm run android:build
+```
+
+The APK is written to `android/app/build/outputs/apk/debug/app-debug.apk`. Install it on an Android 7+ device with an updated WebView. The regional catalogue is bundled into the app; map tiles still need a network connection.
+
+## Content And Attribution
+
+All editorial summaries should be written from original research. Do not copy wording from course material, books, commercial guides, or websites. Each local data record carries source references; maintain detailed provenance for every shipped factual or editorial claim before any public release.
+
+MapTiler and OpenStreetMap attribution must remain visible on the map. A MapTiler client key is exposed in the built app by design, so restrict it to approved origins and monitor usage. Do not commit `.env` files or service tokens.
+
+## Project Structure
+
+```text
+src/app/                 App shell, global styles, and web icon
+src/components/atlas/    Map, browser, dossier, and comparison UI
+src/data/regions.ts      Local parent-region and subregion catalogue
+src/lib/                 Geographic, schema, and search helpers
+src/types/region.ts      Region and subregion contracts
+e2e/                     Playwright browser tests
+android/                 Capacitor Android project
+assets/                  Launcher icon source assets
+```

@@ -20,6 +20,8 @@ describe("RegionDossier", () => {
     expect(screen.getByRole("heading", { name: "Champagne" })).toBeVisible();
     expect(screen.getByText("A short, cool growing season preserves acidity and makes ripeness a careful annual balance.")).toBeVisible();
     expect(screen.getByRole("heading", { name: "Key sub-regions and villages" }).parentElement).toHaveTextContent("Cote des Blancs");
+    fireEvent.click(screen.getByRole("button", { name: /Cote des Blancs/ }));
+    expect(screen.getByRole("dialog")).toHaveTextContent("High-acid sparkling base wine");
     fireEvent.click(screen.getByRole("button", { name: "Compare this region" }));
     expect(onAddToComparison).toHaveBeenCalledWith("champagne");
   });

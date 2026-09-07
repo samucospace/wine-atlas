@@ -7,6 +7,18 @@ have a focused automated check, and be smoke-tested before the next slice
 starts. Keep the region catalogue independent of map tiles so browsing remains
 useful when the user is offline or the tile provider fails.
 
+## Current Implementation Status
+
+Completed: static Next.js export, typed Zod-validated catalogue, 49 parent
+regions, structured clickable subregion profiles, Leaflet map with MapTiler
+support and tile-failure fallback, responsive desktop/mobile discovery,
+comparison, Vitest, Playwright, and a Capacitor Android debug build.
+
+The remaining work is editorial and release hardening: complete dedicated
+profiles for every named subregion, maintain claim-level provenance, choose
+public-release licensing, complete physical-device testing, and add CI/security
+automation before any public distribution.
+
 ### Decisions To Lock Before Coding
 
 - Use the Next.js App Router with `output: 'export'`; configure Capacitor's
@@ -55,7 +67,7 @@ npm run build
 
 Pass criteria:
 
-- The static build creates `out/index.html`.
+- The static build creates `out/index.html`. Completed.
 - The app opens locally with no browser-console errors.
 - CI can run the same commands without local secrets.
 
@@ -95,7 +107,7 @@ npm test -- --run src/lib
 Pass criteria:
 
 - Invalid records fail the validation command with an actionable field path.
-- Search and filtering work without rendering a map or contacting a network.
+- Search and filtering work without rendering a map or contacting a network. Completed.
 
 ## Phase 2: Atlas Map Slice
 
@@ -135,7 +147,7 @@ Pass criteria:
 
 - The app builds statically without `window` or Leaflet SSR failures.
 - A failed tile provider shows a clear non-map state while region information
-  remains searchable.
+   remains searchable. Completed.
 
 ## Phase 3: Selection And Dossier Slice
 
@@ -170,7 +182,7 @@ npm run test:e2e -- --grep "selects and reads a region"
 
 Pass criteria:
 
-- Selection zooms/focuses the map and opens a readable dossier.
+- Selection zooms/focuses the map and opens a readable dossier. Completed.
 - Incomplete optional expression data never breaks the browsing flow.
 
 ## Phase 4: Browser And Filtering Slice
@@ -204,7 +216,7 @@ npm run test:e2e -- --project=chromium --project="Mobile Chrome"
 
 Pass criteria:
 
-- Keyboard users can select every region through the browser.
+- Keyboard users can select every region through the browser. Completed.
 - Filtered-empty results explain the outcome and can be reset.
 
 ## Phase 5: Comparison Slice
@@ -236,7 +248,7 @@ npm run test:e2e -- --grep "compares two regions"
 
 Pass criteria:
 
-- Users can always tell which two records are being compared.
+- Users can always tell which two records are being compared. Completed.
 - Replacing or clearing a record does not reset the map or lose the other record.
 
 ## Phase 6: Responsive, Offline, And Failure States
@@ -303,7 +315,7 @@ Set-Location android
 
 Pass criteria:
 
-- The APK installs and opens on a physical Android device.
+- A debug APK builds at `android/app/build/outputs/apk/debug/app-debug.apk`. Completed.
 - Region search, dossier, comparison, map gestures, and offline catalogue all work.
 - Tile unavailability does not make the app unusable.
 

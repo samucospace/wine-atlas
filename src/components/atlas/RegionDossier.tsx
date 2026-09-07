@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { GitCompareArrows, MapPin } from "lucide-react";
-import type { Region } from "@/types/region";
+import { useEffect, useRef, useState } from "react";
+import { GitCompareArrows, MapPin, X } from "lucide-react";
+import type { Region, Subregion } from "@/types/region";
 
 type RegionDossierProps = {
   comparisonCount: number;
@@ -15,6 +15,7 @@ type RegionDossierProps = {
 
 export function RegionDossier({ comparisonCount, isInComparison, onAddToComparison, onSelectRelatedRegion, region, regions }: RegionDossierProps) {
   const dossierElement = useRef<HTMLElement>(null);
+  const [selectedSubregion, setSelectedSubregion] = useState<{ parentRegionId: string; subregion: Subregion }>();
   const relatedRegions = region
     ? regions.filter(
         (candidate) =>
@@ -29,6 +30,17 @@ export function RegionDossier({ comparisonCount, isInComparison, onAddToComparis
     }
   }, [region]);
 
+  useEffect(() => {
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setSelectedSubregion(undefined);
+      }
+    }
+
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, []);
+
   if (!region) {
     return (
       <section className="region-dossier dossier-empty" tabIndex={-1}>
@@ -38,6 +50,8 @@ export function RegionDossier({ comparisonCount, isInComparison, onAddToComparis
       </section>
     );
   }
+
+  const activeSubregion = selectedSubregion?.parentRegionId === region.id ? selectedSubregion.subregion : undefined;
 
   return (
     <section className="region-dossier" ref={dossierElement} tabIndex={-1}>
@@ -83,7 +97,18 @@ export function RegionDossier({ comparisonCount, isInComparison, onAddToComparis
         </section>
         <section>
           <h3>Key sub-regions and villages</h3>
-          <p>{region.subregions.join(" | ") || "Named sub-regions have not yet been added."}</p>
+          {region.subregions.length ? (
+            <div className="subregion-list">
+              {region.subregions.map((subregion) => (
+                <button key={subregion.name} onClick={() => setSelectedSubregion({ parentRegionId: region.id, subregion })} type="button">
+                  <strong>{subregion.name}</strong>
+                  <span>{subregion.hasDedicatedProfile ? subregion.geographicFactors.slice(0, 2).join(" | ") : "Parent profile"}</span>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <p>Named sub-regions have not yet been added.</p>
+          )}
         </section>
         <section>
           <h3>Grapes</h3>
@@ -105,6 +130,37 @@ export function RegionDossier({ comparisonCount, isInComparison, onAddToComparis
             ))}
           </div>
         </section>
+      ) : null}
+      {activeSubregion ? (
+        <div aria-labelledby="subregion-detail-title" aria-modal="true" className="subregion-dialog-backdrop" role="dialog">
+          <section className="subregion-dialog">
+            <div className="subregion-dialog-header">
+              <div>
+                <p className="eyebrow">{region.name} | Subregion profile</p>
+                <h2 id="subregion-detail-title">{activeSubregion.name}</h2>
+              </div>
+              <button aria-label="Close subregion profile" className="icon-button" onClick={() => setSelectedSubregion(undefined)} type="button">
+                <X aria-hidden="true" size={18} />
+              </button>
+            </div>
+            <p className="subregion-overview">{activeSubregion.overview}</p>
+            <dl className="subregion-facts">
+              <div>
+                <dt>Geographic factors</dt>
+                <dd>{activeSubregion.geographicFactors.join(" | ")}</dd>
+              </div>
+              <div>
+                <dt>Key grapes</dt>
+                <dd>{activeSubregion.grapes.join(" | ")}</dd>
+              </div>
+              <div>
+                <dt>Common styles</dt>
+                <dd>{activeSubregion.styles.join(" | ")}</dd>
+              </div>
+            </dl>
+            {!activeSubregion.hasDedicatedProfile ? <p className="subregion-research-note">Local conditions are shown from the parent profile while this place is being researched.</p> : null}
+          </section>
+        </div>
       ) : null}
     </section>
   );

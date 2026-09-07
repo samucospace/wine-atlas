@@ -10,6 +10,15 @@ export const sourceReferenceSchema = z.object({
   notes: z.string().trim().min(1).optional(),
 });
 
+export const subregionSchema = z.object({
+  name: z.string().trim().min(1),
+  overview: z.string().trim().min(1),
+  geographicFactors: z.array(z.string().trim().min(1)),
+  grapes: z.array(z.string().trim().min(1)),
+  styles: z.array(z.string().trim().min(1)),
+  hasDedicatedProfile: z.boolean(),
+});
+
 export const regionSchema = z
   .object({
     id: z.string().trim().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
@@ -25,7 +34,7 @@ export const regionSchema = z
     geographicFactors: z.array(z.string().trim().min(1)),
     climateImpact: z.string().trim().min(1),
     overview: z.string().trim().min(1),
-    subregions: z.array(z.string().trim().min(1)),
+    subregions: z.array(subregionSchema),
     grapes: z.array(z.string().trim().min(1)),
     styles: z.array(z.string().trim().min(1)),
     sources: z.array(sourceReferenceSchema).min(1),

@@ -4,6 +4,15 @@ export type LatitudeBelt = "30-50 N" | "30-50 S" | "Outside primary belts";
 
 export type Climate = "Cool" | "Moderate" | "Warm" | "Hot" | "Variable";
 
+export type Subregion = {
+  name: string;
+  overview: string;
+  geographicFactors: string[];
+  grapes: string[];
+  styles: string[];
+  hasDedicatedProfile: boolean;
+};
+
 export type SourceReference = {
   title: string;
   publisher: string;
@@ -27,7 +36,7 @@ export type Region = {
   geographicFactors: string[];
   climateImpact: string;
   overview: string;
-  subregions: string[];
+  subregions: Subregion[];
   grapes: string[];
   styles: string[];
   sources: SourceReference[];

@@ -33,6 +33,19 @@ test("shows named subregions in a region dossier", async ({ page }) => {
   await expect(dossier).toContainText("Saint-Emilion");
 });
 
+test("opens a detailed subregion profile", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByRole("button", { name: /Bordeaux France Moderate climate/ }).click();
+  await page.getByRole("button", { name: /Saint-Emilion limestone plateau/ }).click();
+
+  const profile = page.getByRole("dialog", { name: "Saint-Emilion" });
+  await expect(profile).toContainText("limestone plateau");
+  await expect(profile).toContainText("Merlot");
+  await page.getByRole("button", { name: "Close subregion profile" }).click();
+  await expect(profile).not.toBeVisible();
+});
+
 test("compares two regions", async ({ page }) => {
   await page.goto("/");
 
