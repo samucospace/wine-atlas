@@ -17,18 +17,71 @@ const editorialSource: SourceReference = {
   notes: "Original summary prepared for this catalogue; source decisions remain with maintainers.",
 };
 
-type RegionInput = Omit<Region, "hemisphere" | "latitudeBelt" | "sources">;
+const subregionsById: Record<string, string[]> = {
+  champagne: ["Montagne de Reims", "Vallee de la Marne", "Cote des Blancs", "Cote de Sezanne", "Cote des Bar"],
+  douro: ["Baixo Corgo", "Cima Corgo", "Douro Superior"],
+  "napa-valley": ["Los Carneros", "Oakville", "Rutherford", "Stags Leap District", "Howell Mountain"],
+  mendoza: ["Lujan de Cuyo", "Maipu", "Uco Valley", "Tupungato", "San Rafael"],
+  marlborough: ["Wairau Valley", "Awatere Valley", "Southern Valleys"],
+  "barossa-valley": ["Barossa Valley", "Eden Valley"],
+  bordeaux: ["Medoc", "Graves", "Pessac-Leognan", "Saint-Emilion", "Pomerol", "Sauternes", "Entre-Deux-Mers"],
+  burgundy: ["Chablis", "Cote de Nuits", "Cote de Beaune", "Cote Chalonnaise", "Maconnais", "Beaujolais"],
+  "loire-valley": ["Pays Nantais", "Anjou-Saumur", "Touraine", "Centre-Loire"],
+  alsace: ["Bas-Rhin", "Haut-Rhin", "Alsace Grand Cru"],
+  "northern-rhone": ["Cote-Rotie", "Condrieu", "Saint-Joseph", "Crozes-Hermitage", "Hermitage", "Cornas"],
+  "southern-rhone": ["Chateauneuf-du-Pape", "Gigondas", "Vacqueyras", "Cotes du Rhone Villages", "Tavel"],
+  provence: ["Cotes de Provence", "Bandol", "Cassis", "Coteaux d'Aix-en-Provence"],
+  languedoc: ["Minervois", "Corbieres", "Faugeres", "Saint-Chinian", "Pic Saint-Loup", "Limoux"],
+  piemonte: ["Langhe", "Roero", "Monferrato", "Asti", "Gavi"],
+  tuscany: ["Chianti Classico", "Brunello di Montalcino", "Vino Nobile di Montepulciano", "Bolgheri", "Vernaccia di San Gimignano"],
+  veneto: ["Valpolicella", "Soave", "Prosecco", "Bardolino", "Amarone della Valpolicella"],
+  "friuli-venezia-giulia": ["Collio", "Colli Orientali del Friuli", "Isonzo", "Carso"],
+  sicily: ["Etna", "Cerasuolo di Vittoria", "Marsala", "Pantelleria", "Noto"],
+  puglia: ["Salento", "Primitivo di Manduria", "Castel del Monte", "Gioia del Colle"],
+  rioja: ["Rioja Alta", "Rioja Alavesa", "Rioja Oriental"],
+  "ribera-del-duero": ["Burgos", "Valladolid", "Soria", "Segovia"],
+  "rias-baixas": ["Val do Salnes", "O Rosal", "Condado do Tea", "Soutomaior", "Ribeira do Ulla"],
+  priorat: ["Gratallops", "Porrera", "Poboleda", "Bellmunt del Priorat", "La Morera de Montsant"],
+  jerez: ["Jerez de la Frontera", "Sanlucar de Barrameda", "El Puerto de Santa Maria"],
+  penedes: ["Penedes Superior", "Penedes Central", "Penedes Maritim"],
+  "vinho-verde": ["Moncao e Melgaco", "Lima", "Cavado", "Ave", "Basto", "Sousa"],
+  dao: ["Serra da Estrela", "Castelo Rodrigo", "Silgueiros", "Terras de Azurara"],
+  alentejo: ["Borba", "Evora", "Redondo", "Reguengos", "Vidigueira", "Portalegre"],
+  mosel: ["Upper Mosel", "Middle Mosel", "Lower Mosel", "Saar", "Ruwer"],
+  rheingau: ["Rudesheim", "Geisenheim", "Johannisberg", "Erbach", "Eltville"],
+  pfalz: ["Mittelhaardt", "Suedliche Weinstrasse"],
+  wachau: ["Loiben", "Durnstein", "Weissenkirchen", "Spitz"],
+  tokaj: ["Tokaj", "Tarcal", "Mad", "Tallya", "Sarospatak"],
+  "sonoma-county": ["Russian River Valley", "Sonoma Coast", "Dry Creek Valley", "Alexander Valley", "Carneros"],
+  "willamette-valley": ["Dundee Hills", "Eola-Amity Hills", "Yamhill-Carlton", "Chehalem Mountains", "McMinnville"],
+  "columbia-valley": ["Walla Walla Valley", "Yakima Valley", "Red Mountain", "Horse Heaven Hills", "Lake Chelan"],
+  "casablanca-valley": ["Casablanca", "Lo Ovalle", "Las Dichas"],
+  "maipo-valley": ["Alto Maipo", "Maipo Medio", "Maipo Bajo"],
+  salta: ["Cafayate", "Molinos", "Cachi", "San Carlos"],
+  stellenbosch: ["Simonsberg-Stellenbosch", "Bottelary", "Helderberg", "Polkadraai Hills", "Jonkershoek Valley"],
+  swartland: ["Paardeberg", "Riebeek Kasteel", "Riebeek West", "Malmesbury"],
+  "mclaren-vale": ["Blewitt Springs", "Seaview", "McLaren Flat", "Sellicks Foothills"],
+  "margaret-river": ["Wilyabrup", "Wallcliffe", "Karridale", "Treeton"],
+  coonawarra: ["Coonawarra", "Wrattonbully", "Mount Gambier"],
+  "yarra-valley": ["Upper Yarra", "Valley Floor", "Yarra Glen", "Coldstream"],
+  "hunter-valley": ["Lower Hunter", "Upper Hunter", "Broke Fordwich"],
+  "central-otago": ["Gibbston", "Bannockburn", "Cromwell Basin", "Bendigo", "Alexandra"],
+  "hawkes-bay": ["Gimblett Gravels", "Bridge Pa Triangle", "Te Mata", "Esk Valley", "Havelock Hills"],
+};
+
+type RegionInput = Omit<Region, "hemisphere" | "latitudeBelt" | "sources" | "subregions">;
 
 function createRegion(region: RegionInput): Region {
   return {
     ...region,
     hemisphere: getHemisphere(region.latitude),
     latitudeBelt: getLatitudeBelt(region.latitude),
+    subregions: subregionsById[region.id] ?? [],
     sources: [geographicSource, editorialSource],
   };
 }
 
-export const regions = [
+export const regions = ([
   {
     id: "champagne",
     name: "Champagne",
@@ -180,4 +233,7 @@ export const regions = [
   createRegion({ id: "hunter-valley", name: "Hunter Valley", country: "Australia", countryCode: "AU", latitude: -32.76, longitude: 151.34, climate: "Warm", landmarks: ["Brokenback Range", "Hunter River"], geographicFactors: ["humid summer rainfall", "low elevation", "coastal proximity"], climateImpact: "Warm, humid summer conditions make timing and disease management especially important during ripening.", overview: "Hunter Valley is an Australian vineyard region north of Sydney between coastal plains and low mountain ranges.", grapes: ["Semillon", "Shiraz", "Chardonnay"], styles: ["Light dry white wine", "Medium-bodied red wine"] }),
   createRegion({ id: "central-otago", name: "Central Otago", country: "New Zealand", countryCode: "NZ", latitude: -45.03, longitude: 169.2, climate: "Cool", landmarks: ["Southern Alps", "Kawarau River"], geographicFactors: ["high altitude", "continental dryness", "large diurnal range"], climateImpact: "An inland mountain setting brings dry conditions, intense light, and cool nights during a short growing season.", overview: "Central Otago is New Zealand's southernmost major wine area, set among inland valleys and mountains.", grapes: ["Pinot Noir", "Pinot Gris", "Riesling"], styles: ["Fragrant red wine", "Aromatic dry white wine"] }),
   createRegion({ id: "hawkes-bay", name: "Hawke's Bay", country: "New Zealand", countryCode: "NZ", latitude: -39.64, longitude: 176.84, climate: "Moderate", landmarks: ["Pacific Ocean", "Ngaruroro River"], geographicFactors: ["gravelly river terraces", "sunny climate", "coastal influence"], climateImpact: "Warm sunshine is balanced by maritime influence, while river gravels drain and warm quickly.", overview: "Hawke's Bay lies on New Zealand's eastern North Island coast, with vineyards on plains and gravel terraces.", grapes: ["Merlot", "Syrah", "Chardonnay"], styles: ["Blended red wine", "Full dry white wine"] }),
-] satisfies Region[];
+ ] satisfies Omit<Region, "subregions">[]).map((region) => ({
+  ...region,
+  subregions: subregionsById[region.id] ?? [],
+})) satisfies Region[];

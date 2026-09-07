@@ -27,6 +27,7 @@ export type Region = {
   geographicFactors: string[];
   climateImpact: string;
   overview: string;
+  subregions: string[];
   grapes: string[];
   styles: string[];
   sources: SourceReference[];

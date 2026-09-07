@@ -24,6 +24,15 @@ test("filters the browser and recovers from an empty state", async ({ page }) =>
   await expect(page.getByText("49 regions")).toBeVisible();
 });
 
+test("shows named subregions in a region dossier", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByRole("button", { name: /Bordeaux France Moderate climate/ }).click();
+  const dossier = page.locator(".region-dossier");
+  await expect(dossier.getByRole("heading", { name: "Key sub-regions and villages" })).toBeVisible();
+  await expect(dossier).toContainText("Saint-Emilion");
+});
+
 test("compares two regions", async ({ page }) => {
   await page.goto("/");
 

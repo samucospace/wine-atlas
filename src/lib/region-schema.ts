@@ -25,6 +25,7 @@ export const regionSchema = z
     geographicFactors: z.array(z.string().trim().min(1)),
     climateImpact: z.string().trim().min(1),
     overview: z.string().trim().min(1),
+    subregions: z.array(z.string().trim().min(1)),
     grapes: z.array(z.string().trim().min(1)),
     styles: z.array(z.string().trim().min(1)),
     sources: z.array(sourceReferenceSchema).min(1),

@@ -82,6 +82,10 @@ export function RegionDossier({ comparisonCount, isInComparison, onAddToComparis
           <p>{region.geographicFactors.join(" | ") || "Geographic factors are not yet available."}</p>
         </section>
         <section>
+          <h3>Key sub-regions and villages</h3>
+          <p>{region.subregions.join(" | ") || "Named sub-regions have not yet been added."}</p>
+        </section>
+        <section>
           <h3>Grapes</h3>
           <p>{region.grapes.join(" | ") || "Associated grapes are not yet available."}</p>
         </section>
