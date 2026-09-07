@@ -10,7 +10,7 @@ describe("RegionBrowser", () => {
 
     fireEvent.change(screen.getByRole("searchbox"), { target: { value: "Malbec" } });
 
-    expect(screen.getByText("1 region")).toBeVisible();
+    expect(screen.getByText("2 regions")).toBeVisible();
     fireEvent.click(screen.getByRole("button", { name: /Mendoza/ }));
     expect(onSelect).toHaveBeenCalledWith("mendoza");
   });
@@ -22,6 +22,6 @@ describe("RegionBrowser", () => {
     expect(screen.getByText("No regions match these filters.")).toBeVisible();
 
     fireEvent.click(screen.getByRole("button", { name: /Reset filters/ }));
-    expect(screen.getByText("6 regions")).toBeVisible();
+    expect(screen.getByText(`${regions.length} regions`)).toBeVisible();
   });
 });

@@ -14,14 +14,14 @@ test("filters the browser and recovers from an empty state", async ({ page }) =>
   await page.goto("/");
 
   await page.getByRole("searchbox").fill("Malbec");
-  await expect(page.getByText("1 region")).toBeVisible();
+  await expect(page.getByText("2 regions")).toBeVisible();
   await page.getByRole("button", { name: /Mendoza Argentina/ }).click();
   await expect(page.getByRole("heading", { name: "Mendoza" })).toBeVisible();
 
   await page.getByRole("searchbox").fill("Unknown region");
   await expect(page.getByText("No regions match these filters.")).toBeVisible();
   await page.getByRole("button", { name: /Reset filters/ }).click();
-  await expect(page.getByText("6 regions")).toBeVisible();
+  await expect(page.getByText("49 regions")).toBeVisible();
 });
 
 test("compares two regions", async ({ page }) => {
@@ -52,5 +52,6 @@ test("keeps the mobile atlas within the viewport", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.locator("html")).toHaveJSProperty("scrollWidth", await page.evaluate(() => window.innerWidth));
+  await expect(page.locator(".leaflet-tile-loaded").first()).toBeVisible();
   await expect(page.getByRole("button", { name: "Use dark map style" })).toBeVisible();
 });
