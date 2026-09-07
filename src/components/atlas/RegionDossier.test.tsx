@@ -8,6 +8,8 @@ describe("RegionDossier", () => {
     const onAddToComparison = vi.fn();
     render(
       <RegionDossier
+        comparisonCount={0}
+        isInComparison={false}
         onAddToComparison={onAddToComparison}
         onSelectRelatedRegion={vi.fn()}
         region={regions[0]}
@@ -17,12 +19,12 @@ describe("RegionDossier", () => {
 
     expect(screen.getByRole("heading", { name: "Champagne" })).toBeVisible();
     expect(screen.getByText("A short, cool growing season preserves acidity and makes ripeness a careful annual balance.")).toBeVisible();
-    fireEvent.click(screen.getByRole("button", { name: "Compare" }));
+    fireEvent.click(screen.getByRole("button", { name: "Compare this region" }));
     expect(onAddToComparison).toHaveBeenCalledWith("champagne");
   });
 
   it("has a clear empty state", () => {
-    render(<RegionDossier onAddToComparison={vi.fn()} onSelectRelatedRegion={vi.fn()} regions={regions} />);
+    render(<RegionDossier comparisonCount={0} isInComparison={false} onAddToComparison={vi.fn()} onSelectRelatedRegion={vi.fn()} regions={regions} />);
 
     expect(screen.getByRole("heading", { name: "Select a region" })).toBeVisible();
   });

@@ -110,15 +110,6 @@ select {
 	background-color: var(--water);
 }
 
-.atlas-map::before {
-	position: absolute;
-	z-index: 450;
-	inset: 0;
-	pointer-events: none;
-	background-image: repeating-linear-gradient(20deg, transparent 0 38px, rgb(36 55 46 / 7%) 39px 40px);
-	content: "";
-}
-
 .atlas-map .leaflet-control-zoom,
 .map-style-controls {
 	border: 1px solid var(--vine-deep);
@@ -348,15 +339,33 @@ select {
 	color: #d4e0bf;
 }
 
+.comparison-guidance {
+	margin: -0.2rem 0 0.15rem;
+	color: var(--paper);
+	font-family: var(--sans);
+	font-size: 0.8rem;
+	line-height: 1.35;
+}
+
 .comparison-region,
 .comparison-tray .icon-button {
 	border-color: rgb(214 182 108 / 65%);
 	border-radius: 3px;
+	background: transparent;
+	color: var(--paper);
 }
 
 .comparison-region:hover,
 .comparison-tray .icon-button:hover {
 	background: rgb(214 182 108 / 12%);
+}
+
+.icon-text-button:disabled {
+	cursor: default;
+	border-color: var(--line-strong);
+	background: #6d7971;
+	box-shadow: none;
+	color: var(--paper-bright);
 }
 
 .comparison-facts {

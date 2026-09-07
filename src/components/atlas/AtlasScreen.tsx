@@ -56,6 +56,8 @@ export function AtlasScreen() {
       <RegionDossier
         onAddToComparison={addToComparison}
         onSelectRelatedRegion={selectRegion}
+        comparisonCount={comparisonRegionIds.length}
+        isInComparison={comparisonRegionIds.includes(selectedRegionId ?? "")}
         region={selectedRegion}
         regions={regions}
       />

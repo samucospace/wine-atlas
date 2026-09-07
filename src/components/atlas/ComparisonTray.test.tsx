@@ -9,6 +9,7 @@ describe("ComparisonTray", () => {
     const onSelect = vi.fn();
     render(<ComparisonTray onClear={onClear} onSelect={onSelect} regions={regions.slice(0, 2)} />);
 
+    expect(screen.getByText("Side-by-side regional profile")).toBeVisible();
     fireEvent.click(screen.getByRole("button", { name: "Select Champagne" }));
     fireEvent.click(screen.getByRole("button", { name: "Remove Douro from comparison" }));
 

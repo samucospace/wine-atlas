@@ -28,9 +28,9 @@ test("compares two regions", async ({ page }) => {
   await page.goto("/");
 
   await page.getByRole("button", { name: /Champagne France Cool climate/ }).click();
-  await page.getByRole("button", { name: "Compare" }).click();
+  await page.getByRole("button", { name: "Compare this region" }).click();
   await page.getByRole("button", { name: /Douro Portugal Warm climate/ }).click();
-  await page.getByRole("button", { name: "Compare" }).click();
+  await page.getByRole("button", { name: "Add as second region" }).click();
 
   const comparisonTray = page.getByRole("complementary", { name: "Comparison tray" });
   await expect(comparisonTray).toContainText("Compare 2 of 2");
@@ -39,7 +39,7 @@ test("compares two regions", async ({ page }) => {
 });
 
 test("keeps the catalogue available when map tiles fail", async ({ page }) => {
-  await page.route("https://tile.openstreetmap.org/**", async (route) => route.abort());
+  await page.route(/https:\/\/(api\.maptiler\.com|tile\.openstreetmap\.org)\//, async (route) => route.abort());
   await page.goto("/");
 
   await expect(page.getByRole("status")).toContainText("The map tiles are unavailable.");

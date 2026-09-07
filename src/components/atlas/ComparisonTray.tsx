@@ -17,6 +17,11 @@ export function ComparisonTray({ onClear, onSelect, regions }: ComparisonTrayPro
   return (
     <aside aria-label="Comparison tray" className="comparison-tray">
       <p className="eyebrow">Compare {regions.length} of 2</p>
+      <p className="comparison-guidance">
+        {regions.length === 1
+          ? "Choose another region, then add it as your second selection."
+          : "Side-by-side regional profile"}
+      </p>
       <div className="comparison-items">
         {regions.map((region) => (
           <div className="comparison-item" key={region.id}>
@@ -24,7 +29,7 @@ export function ComparisonTray({ onClear, onSelect, regions }: ComparisonTrayPro
               <strong>{region.name}</strong>
               <span>{region.country} | {region.climate}</span>
             </button>
-            <button aria-label={`Remove ${region.name} from comparison`} className="icon-button" onClick={() => onClear(region.id)} type="button">
+            <button aria-label={`Remove ${region.name} from comparison`} className="icon-button" onClick={() => onClear(region.id)} title={`Remove ${region.name}`} type="button">
               <X aria-hidden="true" size={18} />
             </button>
           </div>

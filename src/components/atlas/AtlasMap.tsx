@@ -7,6 +7,14 @@ import type { Region } from "@/types/region";
 
 export type MapStyle = "light" | "dark";
 
+const mapTilerKey = process.env.NEXT_PUBLIC_MAPTILER_KEY;
+const tileUrl = mapTilerKey
+  ? `https://api.maptiler.com/maps/streets-v4/256/{z}/{x}/{y}.png?key=${mapTilerKey}`
+  : "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+const tileAttribution = mapTilerKey
+  ? '&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
 type AtlasMapProps = {
   mapStyle: MapStyle;
   onMapStyleChange: (style: MapStyle) => void;
@@ -48,16 +56,12 @@ export function AtlasMap({
         center: [12, 8],
         zoom: 2,
         minZoom: 2,
-        maxBounds: [
-          [-75, -180],
-          [75, 180],
-        ],
         zoomControl: true,
       });
       mapRef.current = map;
 
-      const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      const tiles = L.tileLayer(tileUrl, {
+        attribution: tileAttribution,
         maxZoom: 19,
       });
       tiles.on("tileerror", () => setTilesUnavailable(true));

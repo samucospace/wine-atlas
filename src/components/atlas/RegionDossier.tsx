@@ -5,13 +5,15 @@ import { GitCompareArrows, MapPin } from "lucide-react";
 import type { Region } from "@/types/region";
 
 type RegionDossierProps = {
+  comparisonCount: number;
+  isInComparison: boolean;
   onAddToComparison: (regionId: string) => void;
   onSelectRelatedRegion: (regionId: string) => void;
   region?: Region;
   regions: Region[];
 };
 
-export function RegionDossier({ onAddToComparison, onSelectRelatedRegion, region, regions }: RegionDossierProps) {
+export function RegionDossier({ comparisonCount, isInComparison, onAddToComparison, onSelectRelatedRegion, region, regions }: RegionDossierProps) {
   const dossierElement = useRef<HTMLElement>(null);
   const relatedRegions = region
     ? regions.filter(
@@ -44,8 +46,15 @@ export function RegionDossier({ onAddToComparison, onSelectRelatedRegion, region
           <p className="eyebrow">{region.country} | {region.latitudeBelt}</p>
           <h2>{region.name}</h2>
         </div>
-        <button className="icon-text-button" onClick={() => onAddToComparison(region.id)} type="button">
-          <GitCompareArrows aria-hidden="true" size={18} /> Compare
+        <button
+          className="icon-text-button"
+          disabled={isInComparison}
+          onClick={() => onAddToComparison(region.id)}
+          title={isInComparison ? "This region is already in the comparison" : "Add this region to the comparison"}
+          type="button"
+        >
+          <GitCompareArrows aria-hidden="true" size={18} />
+          {isInComparison ? "Added to comparison" : comparisonCount ? "Add as second region" : "Compare this region"}
         </button>
       </div>
       <p className="dossier-overview">{region.overview}</p>

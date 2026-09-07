@@ -1,14 +1,14 @@
 # Map Provider
 
-## Development Tile Service
+## MapTiler Tile Service
 
-The current development build uses the OpenStreetMap Standard raster tile
-service at `https://tile.openstreetmap.org/{z}/{x}/{y}.png`.
+When `NEXT_PUBLIC_MAPTILER_KEY` is configured, the atlas uses MapTiler's
+`streets-v4` raster tiles through its documented 256px XYZ endpoint.
 
-Visible attribution on the map is: `© OpenStreetMap contributors`.
+Visible attribution on the map is: `© MapTiler © OpenStreetMap contributors`.
 
-This service is only suitable for normal interactive map viewing. It must not
-be bulk-downloaded, pre-fetched, or packaged for offline use. Browser requests
-must retain their normal referrer behavior. A production provider decision,
-including traffic limits, support terms, and Android identification needs, is
-required before public distribution.
+The client key is intentionally visible in web and Capacitor builds. Restrict it
+in MapTiler to approved origins and monitor its usage. The application falls
+back to OpenStreetMap Standard tiles only when no MapTiler key is configured;
+that fallback remains for local development and must not be used for offline
+tile packaging or bulk downloading.
