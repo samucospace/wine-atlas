@@ -39,7 +39,12 @@ export function AtlasMap({
   const mapRef = useRef<Leaflet.Map>(null);
   const markerRefs = useRef(new Map<string, Leaflet.Marker>());
   const skipNextFlyToRef = useRef(false);
+  const onSelectRef = useRef(onSelect);
   const [tilesUnavailable, setTilesUnavailable] = useState(false);
+
+  useEffect(() => {
+    onSelectRef.current = onSelect;
+  }, [onSelect]);
 
   useEffect(() => {
     let cancelled = false;
@@ -116,7 +121,7 @@ export function AtlasMap({
           .bindTooltip(`${region.name}, ${region.country}`)
           .on("click", () => {
             skipNextFlyToRef.current = true;
-            onSelect(region.id);
+            onSelectRef.current(region.id);
           })
           .addTo(map);
 
@@ -132,7 +137,7 @@ export function AtlasMap({
       mapRef.current = null;
       markers.clear();
     };
-  }, [onSelect, regions]);
+  }, [regions]);
 
   useEffect(() => {
     const map = mapRef.current;

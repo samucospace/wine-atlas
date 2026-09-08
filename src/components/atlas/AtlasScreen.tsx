@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { regions } from "@/data/regions";
 import { AtlasMap, type MapStyle } from "./AtlasMap";
 import { ComparisonTray } from "./ComparisonTray";
@@ -14,10 +14,10 @@ export function AtlasScreen() {
   const [comparisonRegionIds, setComparisonRegionIds] = useState<string[]>([]);
   const selectedRegion = regions.find((region) => region.id === selectedRegionId);
 
-  function selectRegion(regionId: string) {
+  const selectRegion = useCallback((regionId: string) => {
     setSelectedRegionId(regionId);
     setIsBrowserOpen(false);
-  }
+  }, []);
 
   function addToComparison(regionId: string) {
     setComparisonRegionIds((currentRegionIds) => {
