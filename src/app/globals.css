@@ -102,7 +102,6 @@ body {
 
 .wine-marker {
 	display: grid;
-	position: relative;
 	width: 44px !important;
 	height: 44px !important;
 	margin: 0 !important;

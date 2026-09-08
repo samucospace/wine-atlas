@@ -68,12 +68,18 @@ export function AtlasMap({
         zoom: 2,
         minZoom: 2,
         zoomControl: true,
+        maxBounds: [
+          [-90, -180],
+          [90, 180],
+        ],
+        maxBoundsViscosity: 1,
       });
       mapRef.current = map;
 
       const tiles = L.tileLayer(tileUrl, {
         attribution: tileAttribution,
         maxZoom: 19,
+        noWrap: true,
       });
       tiles.on("tileerror", () => setTilesUnavailable(true));
       tiles.addTo(map);
