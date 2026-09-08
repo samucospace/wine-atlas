@@ -12,12 +12,13 @@ useful when the user is offline or the tile provider fails.
 Completed: static Next.js export, typed Zod-validated catalogue, 49 parent
 regions, structured clickable subregion profiles, Leaflet map with MapTiler
 support and tile-failure fallback, responsive desktop/mobile discovery,
-comparison, Vitest, Playwright, and a Capacitor Android debug build.
+comparison, Vitest, Playwright, and a Capacitor Android debug build. All 214
+bundled subregions now have dedicated, original profiles (no places currently
+fall back to parent-context text).
 
-The remaining work is editorial and release hardening: complete dedicated
-profiles for every named subregion, maintain claim-level provenance, choose
-public-release licensing, complete physical-device testing, and add CI/security
-automation before any public distribution.
+The remaining work is release hardening: maintain claim-level provenance,
+choose public-release licensing, complete physical-device testing, and add CI/
+security automation before any public distribution.
 
 ### Decisions To Lock Before Coding
 

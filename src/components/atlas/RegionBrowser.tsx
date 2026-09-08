@@ -20,6 +20,9 @@ export function RegionBrowser({ isOpen, onClose, onSelect, regions }: RegionBrow
   const [filters, setFilters] = useState<RegionFilters>({ sort: "name" });
   const results = findRegions(regions, filters);
   const countries = [...new Set(regions.map((region) => region.country))].sort();
+  const hasActiveFilters = Boolean(
+    filters.query || filters.country || filters.climate || filters.hemisphere || filters.latitudeBelt,
+  );
 
   function updateFilter<Key extends keyof RegionFilters>(key: Key, value: RegionFilters[Key]) {
     setFilters((currentFilters) => ({ ...currentFilters, [key]: value }));
@@ -52,6 +55,11 @@ export function RegionBrowser({ isOpen, onClose, onSelect, regions }: RegionBrow
           type="search"
           value={filters.query ?? ""}
         />
+        {filters.query ? (
+          <button aria-label="Clear search text" onClick={() => updateFilter("query", undefined)} type="button">
+            <X aria-hidden="true" size={16} />
+          </button>
+        ) : null}
       </label>
       <div className="filter-grid">
         <label>
@@ -113,9 +121,16 @@ export function RegionBrowser({ isOpen, onClose, onSelect, regions }: RegionBrow
           </select>
         </label>
       </div>
-      <p aria-live="polite" className="result-count">
-        {results.length} {results.length === 1 ? "region" : "regions"}
-      </p>
+      <div className="result-count-row">
+        <p aria-live="polite" className="result-count">
+          {results.length} {results.length === 1 ? "region" : "regions"}
+        </p>
+        {hasActiveFilters ? (
+          <button className="text-button" onClick={resetFilters} type="button">
+            <X aria-hidden="true" size={16} /> Clear all filters
+          </button>
+        ) : null}
+      </div>
       {results.length ? (
         <ul className="region-results">
           {results.map((region) => (

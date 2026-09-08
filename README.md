@@ -6,8 +6,9 @@ Wine Atlas is an independent, map-first reference app for exploring wine regions
 
 - 49 locally bundled parent regions across Europe, the Americas, South Africa, Australia, and New Zealand.
 - Interactive Leaflet map with MapTiler tiles, climate markers, latitude-belt overlays, and a tile-failure fallback.
-- Search, country/climate/hemisphere filters, related-region navigation, and two-region comparison.
-- Click-through subregion profiles. Dedicated profiles identify local geography, grapes, and styles; places still under research state that they inherit parent context.
+- Marker labels appear once you zoom in a little, keeping the world view uncluttered; selecting a marker opens its dossier without resetting the current pan or zoom.
+- Search, country/climate/hemisphere filters, a one-click "Clear all filters" action, related-region navigation, and two-region comparison.
+- Click-through subregion profiles. All 214 bundled subregions currently have a dedicated, original profile with local geography, grapes, and styles; the data model still supports a parent-context fallback for any subregion added later without research.
 - Responsive mobile search sheet and Capacitor Android debug build.
 
 ## Run Locally

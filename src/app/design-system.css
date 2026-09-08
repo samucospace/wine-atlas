@@ -177,6 +177,11 @@ select {
 	box-shadow: 0 0 0 5px var(--vine), 0 3px 7px rgb(30 43 37 / 38%);
 }
 
+.wine-marker__label {
+	background: rgb(30 43 37 / 88%);
+	color: var(--paper-bright);
+}
+
 .map-notice {
 	border: 1px solid var(--clay-dark);
 	border-left: 5px solid var(--clay);

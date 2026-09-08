@@ -15,6 +15,9 @@ const tileAttribution = mapTilerKey
   ? '&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
+// Below this zoom level, marker labels are hidden to avoid clutter on the world view.
+const LABEL_ZOOM_THRESHOLD = 4;
+
 type AtlasMapProps = {
   mapStyle: MapStyle;
   onMapStyleChange: (style: MapStyle) => void;
@@ -35,6 +38,7 @@ export function AtlasMap({
   const mapElement = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Leaflet.Map>(null);
   const markerRefs = useRef(new Map<string, Leaflet.Marker>());
+  const skipNextFlyToRef = useRef(false);
   const [tilesUnavailable, setTilesUnavailable] = useState(false);
 
   useEffect(() => {
@@ -69,6 +73,12 @@ export function AtlasMap({
       tiles.on("tileerror", () => setTilesUnavailable(true));
       tiles.addTo(map);
 
+      const updateLabelVisibility = () => {
+        container.classList.toggle("atlas-map--labels-visible", map.getZoom() >= LABEL_ZOOM_THRESHOLD);
+      };
+      map.on("zoomend", updateLabelVisibility);
+      updateLabelVisibility();
+
       const beltStyle = {
         color: "#a9413d",
         fillColor: "#a9413d",
@@ -95,7 +105,7 @@ export function AtlasMap({
         const marker = L.marker([region.latitude, region.longitude], {
           icon: L.divIcon({
             className: "wine-marker",
-            html: '<span class="wine-marker__symbol" aria-hidden="true"></span>',
+            html: `<span class="wine-marker__symbol" aria-hidden="true"></span><span class="wine-marker__label">${region.name}</span>`,
             iconAnchor: [22, 22],
             iconSize: [44, 44],
           }),
@@ -104,7 +114,10 @@ export function AtlasMap({
         })
           .bindPopup(`<strong>${region.name}</strong><br />${region.country}`)
           .bindTooltip(`${region.name}, ${region.country}`)
-          .on("click", () => onSelect(region.id))
+          .on("click", () => {
+            skipNextFlyToRef.current = true;
+            onSelect(region.id);
+          })
           .addTo(map);
 
         markers.set(region.id, marker);
@@ -134,10 +147,14 @@ export function AtlasMap({
       return;
     }
 
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    map.flyTo([selectedRegion.latitude, selectedRegion.longitude], 6, {
-      animate: !reducedMotion,
-    });
+    if (skipNextFlyToRef.current) {
+      skipNextFlyToRef.current = false;
+    } else {
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      map.flyTo([selectedRegion.latitude, selectedRegion.longitude], 6, {
+        animate: !reducedMotion,
+      });
+    }
     markerRefs.current.get(selectedRegion.id)?.openPopup();
   }, [regions, selectedRegionId]);
 

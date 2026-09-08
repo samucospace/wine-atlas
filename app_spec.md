@@ -84,12 +84,13 @@ Each region has one selectable marker with:
 - Visual climate color.
 - Selected and comparison states.
 
-Markers must be large enough to tap reliably. Selecting a marker must:
+Markers must be large enough to tap reliably. Name labels appear beside a marker once the map is zoomed in enough to avoid clutter, and stay hidden at the full world view. Selecting a marker must:
 
-- Fly the map to the region.
-- Increase the map zoom to a useful regional level.
 - Open a short map popup.
 - Load the full region dossier below or beside the map.
+- Preserve the map's current pan and zoom, so a user who has navigated to a location can select nearby markers without losing that view.
+
+Selecting a region from the region browser, related-region links, or the comparison tray must additionally fly the map to the region and increase zoom to a useful regional level, since the map may not already be showing that area.
 
 ### Region Browser
 
@@ -98,6 +99,7 @@ Markers must be large enough to tap reliably. Selecting a marker must:
 - Climate filter.
 - Latitude hemisphere or belt filter.
 - Sort by region name and country.
+- A visible way to clear the search text and to reset all active filters at once.
 - Results must show enough context to distinguish similarly named regions.
 - Selecting a result must use the same selection path as selecting a marker.
 
@@ -167,6 +169,9 @@ type Subregion = {
 Subregions and villages are presented as clickable study entries. Dedicated
 profiles contain local original research; entries without a verified dedicated
 profile transparently inherit parent-region context until research is complete.
+As of the current catalogue, every bundled subregion has a dedicated profile;
+the parent-context fallback remains available for any subregion added later
+before it has been researched.
 
 ### Editorial Requirements
 
